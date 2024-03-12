@@ -36,11 +36,16 @@ class tailwindCompletions(sublime_plugin.EventListener):
 
             # is the last typed attribute a class attribute?
             if matchHTMLString:
-              if len(parts) > 1 and parts[-2].strip().endswith("class"):
-                return self.class_completions
+                if len(parts) > 1 and parts[-2].strip().endswith("class"):
+                    return self.class_completions
             if matchJSString:
-              if len(parts) > 1 and parts[-2].strip().endswith("className"):
-                return self.class_completions
+                if len(parts) > 1 and parts[-2].strip().endswith("className"):
+                    return self.class_completions
+                else: # Try using a different split for Mithril attributes: m(div, { class: '...' }, ...)
+                    parts = line.split(':')
+                    if len(parts) > 1 and parts[-2].strip().endswith("class"):
+                        return self.class_completions
+
             if len(parts) > 1 and parts[-2].strip().endswith("class"):
                 return self.class_completions
 
